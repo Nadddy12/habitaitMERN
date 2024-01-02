@@ -12,7 +12,7 @@ authController.singup = async ( req , res , next) => {
 
     try {
         await newUser.save();
-        res.status(201).json("user created successfully !")
+        res.status(201).json("Utilisateur créé avec succès !")
     } catch (error) {
         next(error);
     };
@@ -24,10 +24,10 @@ authController.singin = async (req , res ,next) => {
     try {
         const validUser = await User.findOne({email});
 
-        if (!validUser) return next(errorHandler(404, `utilisateur non trouvé`));
+        if (!validUser) return next(errorHandler(404, `Email ou mot de passe incorrect`));
         const validPassword = bcryptjs.compareSync(password , validUser.password);
 
-        if(!validPassword) return next (errorHandler(401 , `email ou mot de passe incorrect`));
+        if(!validPassword) return next (errorHandler(401 , `Email ou mot de passe incorrect`));
 
         const token = jwt.sign({ id: validUser._id} , process.env.JWT_KEY)
 
