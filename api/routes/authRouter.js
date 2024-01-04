@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post(`/signup` , authController.singup)
 router.post(`/signin` , authController.singin)
+router.post(`/google` , authController.google)
 
 export default router;

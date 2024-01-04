@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    avatar: {
+        type: String,
+        default: "https://freerangestock.com/sample/120147/business-man-profile-vector.jpg"
+    },
 }, {timestamps: true});
 
 const User = mongoose.model("User" , userSchema);
