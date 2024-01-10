@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart , signInFailure , signInSuccess } from '../../store/user/userSlice';
+import { signInStart , signInFailure , signInSuccess } from '../store/user/userSlice.js';
 import OAuth from '../components/OAuth';
 
 export default function SignIn() {
@@ -48,9 +48,24 @@ export default function SignIn() {
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-7'>Se connecter</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-        <input type='email' placeholder='Email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>
-        <input type='password' placeholder='Password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
-        <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-70'>
+        <input 
+          type='email' 
+          placeholder='Email' 
+          className='border p-3 rounded-lg' 
+          id='email' 
+          onChange={handleChange}
+        />
+        <input 
+          type='password' 
+          placeholder='Password' 
+          className='border p-3 rounded-lg' 
+          id='password' 
+          onChange={handleChange}
+        />
+        <button 
+          disabled={loading} 
+          className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-70'
+        >
           {loading ? 'Chargement...' : `Se connecter`}
         </button>
         <OAuth/>
