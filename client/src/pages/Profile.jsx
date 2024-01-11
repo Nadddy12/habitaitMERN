@@ -8,7 +8,10 @@ import { updateUserStart,
   updateUserFailure,
   deleteUserFailure,
   deleteUserStart,
-  deleteUserSuccess
+  deleteUserSuccess,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess
 } from "../store/user/userSlice.js"
 
 
@@ -95,6 +98,21 @@ export default function Profile() {
     };
   };
 
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch(`api/auth/signout`);
+      const data = await res.json();
+      if(data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      };
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+      dispatch(signOutUserFailure(data.message));
+    };
+  };
+
   return (
     <main>
       <section className='p-3 max-w-lg mx-auto'>
@@ -166,6 +184,7 @@ export default function Profile() {
               Supprimer le compte
           </span>
           <span 
+            onClick={handleSignOut}
             className='text-red-600 cursor-pointer transition-all ease-in-out hover:scale-105'>
               Se déconnecter
           </span>

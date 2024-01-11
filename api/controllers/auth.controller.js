@@ -61,5 +61,14 @@ authController.google = async (req , res , next) => {
     };
 };
 
+authController.signout = async (req , res , next) => {
+    try {
+        res.clearCookie(`access_token`);
+        res.status(200).json(`l'utilisateur s'est déconnecté`);
+    } catch (error) {
+        next(error)
+    };
+};
+
 
 export default authController;
