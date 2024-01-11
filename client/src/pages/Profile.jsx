@@ -3,7 +3,13 @@ import { useSelector , useDispatch } from 'react-redux'
 import { useRef , useState , useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from './../firebase';
-import { updateUserStart , updateUserSuccess , updateUserFailure } from "../store/user/userSlice.js"
+import { updateUserStart,
+  updateUserSuccess, 
+  updateUserFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess
+} from "../store/user/userSlice.js"
 
 
 export default function Profile() {
@@ -69,6 +75,23 @@ export default function Profile() {
       setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+    };
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`api/user/delete/${currentUser._id}` , {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if(data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
     };
   };
 
@@ -138,6 +161,7 @@ export default function Profile() {
         </form>
         <div className='flex justify-between mt-5'>
           <span 
+            onClick={handleDeleteUser}
             className='text-red-600 cursor-pointer transition-all ease-in-out hover:scale-105'>
               Supprimer le compte
           </span>
@@ -146,8 +170,12 @@ export default function Profile() {
               Se déconnecter
           </span>
         </div>
-        <p className='text-red-500 mt-5'>{error ? error : ''}</p>
-        <p className='text-green-500 mt-5'>{updateSuccess ? `l'utilisateur a été mis à jour avec succès !` : ''}</p>
+        <p className='text-red-500 mt-5'>
+          {error ? error : ''}
+        </p>
+        <p className='text-green-500 mt-5'>
+          {updateSuccess ? `l'utilisateur a été mis à jour avec succès !` : ''}
+        </p>
       </section>
     </main>
   )
