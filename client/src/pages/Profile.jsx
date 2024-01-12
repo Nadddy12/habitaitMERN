@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector , useDispatch } from 'react-redux'
 import { useRef , useState , useEffect } from 'react';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, getStorage, list, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from './../firebase';
 import { Link } from 'react-router-dom';
 import { updateUserStart,
@@ -23,6 +23,8 @@ export default function Profile() {
   const [fileUploadError , setFileUploadError] = useState(false);
   const [formData , setFormData] = useState({});
   const [updateSuccess , setUpdateSuccess] = useState(false);
+  const [showListError , setShowListError] = useState(false);
+  const [userList , setUserList] = useState([]);
   const fileRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -114,6 +116,22 @@ export default function Profile() {
     };
   };
 
+  const handleShowList = async () => {
+    try {
+      setShowListError(false);
+      const res = await fetch(`api/user/lists/${currentUser._id}`);
+      const data = await res.json();
+      if(data.success === false) {
+        setShowListError(true);
+        return;
+      }
+
+      setUserList(data);
+    } catch (error) {
+      setShowListError(true);
+    };
+  };
+
   return (
     <main>
       <section className='p-3 max-w-lg mx-auto'>
@@ -202,10 +220,45 @@ export default function Profile() {
         <p className='text-green-500 mt-5'>
           {updateSuccess ? `l'utilisateur a été mis à jour avec succès !` : ''}
         </p>
-        <button>
+        <button
+          onClick={handleShowList}
+          className='mt-6 text-white w-full bg-yellow-800 border p-3 rounded-lg text-lg'
+        >
           Afficher les annonces
         </button>
+        {showListError && 
+          <p className='text-red-700 mt-5'>Erreur d'afficher les listes</p>
+        }
+
+        {userList && userList.length > 0 &&
+          <div className='flex flex-col gap-4'>
+            <h1 className='text-center my-7 text-2xl font-semibold'>Votre annonce</h1>
+            {userList.map((ele) => (
+              <div key={ele._id} className='border rounded-lg p-3 flex justify-between items-center gap-4'>
+                <Link to={`/list/${ele._id}`}>
+                  <img 
+                    src={ele.imageUrls} 
+                    alt='annonce couver'
+                    className='h-16 w-16 object-contain rounded-md'
+                  />
+                </Link>
+                <Link to={`/list/${ele._id}`} className='text-slate-800 font-semibold flex-1 hover:underline truncate'>
+                  <p>
+                    {ele.name}
+                  </p>
+                </Link>
+                <div className='flex flex-col'>
+                  <button className='text-red-700'>
+                    Supprimer
+                  </button>
+                  <button className='text-green-700'>
+                    Modifier
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>}
       </section>
     </main>
-  )
-}
+  );
+};
