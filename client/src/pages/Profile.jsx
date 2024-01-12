@@ -3,6 +3,7 @@ import { useSelector , useDispatch } from 'react-redux'
 import { useRef , useState , useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from './../firebase';
+import { Link } from 'react-router-dom';
 import { updateUserStart,
   updateUserSuccess, 
   updateUserFailure,
@@ -176,6 +177,12 @@ export default function Profile() {
             className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95'>
               {loading ? 'Chargement...' : `Mise à jour`}
           </button>
+          <Link 
+            to={`/create-list`}
+            className= "bg-green-800 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+            >
+            Créer une annonce
+          </Link>
         </form>
         <div className='flex justify-between mt-5'>
           <span 
