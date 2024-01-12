@@ -202,6 +202,9 @@ export default function Profile() {
         <p className='text-green-500 mt-5'>
           {updateSuccess ? `l'utilisateur a été mis à jour avec succès !` : ''}
         </p>
+        <button>
+          Afficher les annonces
+        </button>
       </section>
     </main>
   )

@@ -1,6 +1,7 @@
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import User from './../models/user.model.js';
+import List from './../models/list.model.js';
 
 
 const userController = {};
@@ -36,7 +37,20 @@ userController.deleteUser = async (req , res , next) => {
         res.status(200).json(`L'utilisateur a été supprimé`)
     } catch (error) {
         next(error)
-    }
+    };
+};
+
+userController.getUserList = async (req , res , next) => {
+    if(req.user.id === req.params.id) {
+        try {
+            const list = await List.find({ userRef: req.params.id });
+            res.status(200).json(list);
+        } catch (error) {
+            next(error);
+        };
+    } else {
+        return next(errorHandler(401 , `Non autorisé à obtenir la liste d'autres personnes`))
+    };
 };
 
 export default userController;

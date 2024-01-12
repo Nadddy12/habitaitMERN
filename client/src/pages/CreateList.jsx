@@ -26,7 +26,6 @@ export default function CreateList() {
   const [errorForm , setErrorForm] = useState(false);
   const [loadingForm , setLoadingForm] = useState(false);
   const navigate = useNavigate();
-  console.log(formData);
 
   const handleImageSubmit = (e) => {
     if(files.length > 0 && files.length + formData.imageUrls.length < 7) {
