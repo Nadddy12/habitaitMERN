@@ -25,6 +25,7 @@ export default function Profile() {
   const [updateSuccess , setUpdateSuccess] = useState(false);
   const [showListError , setShowListError] = useState(false);
   const [userList , setUserList] = useState([]);
+  const [listDeleteError , setListDeleteError] = useState(false);
   const fileRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -130,6 +131,24 @@ export default function Profile() {
     } catch (error) {
       setShowListError(true);
     };
+  };
+
+  const handleListDelete = async (listId) => {
+    setListDeleteError(false);
+    try {
+      const res = await fetch(`api/list/delete/${listId}` , {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if(data.success === false) {
+        setListDeleteError(data.message);
+        return;
+      }
+
+      setUserList((prev) => prev.filter((list) => list._id !== listId));
+    } catch (error) {
+      setListDeleteError(error.message);
+    }
   };
 
   return (
@@ -247,8 +266,10 @@ export default function Profile() {
                     {ele.name}
                   </p>
                 </Link>
-                <div className='flex flex-col'>
-                  <button className='text-red-700'>
+                <div className='flex flex-col gap-3 border p-1 rounded-sm'>
+                  <button
+                    onClick={() => handleListDelete(ele._id)}
+                    className='text-red-700'>
                     Supprimer
                   </button>
                   <button className='text-green-700'>
