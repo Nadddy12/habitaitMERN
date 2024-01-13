@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post(`/create` , verifyToken , listController.create)
 router.delete(`/delete/:id` , verifyToken , listController.delete)
+router.post(`/update/:id` , verifyToken , listController.update)
 
 export default router;

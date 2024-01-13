@@ -31,4 +31,27 @@ listController.delete = async (req , res , next ) => {
     };
 };
 
+listController.update = async (req , res , next) => {
+    const list = await List.findById(req.params.id);
+
+    if(!list) {
+        return next(errorHandler(404 , `L'annonce est introuvable`))
+    }
+
+    if(req.user.id !== list.userRef) {
+        return next(errorHandler(401 , `non autorisé à modifier cette annonce`))
+    }
+
+    try {
+        const updatedList = await List.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {new: true}
+        );
+        res.status(200).json(updatedList);
+    } catch (error) {
+        next(error);
+    };
+};
+
 export default listController;
