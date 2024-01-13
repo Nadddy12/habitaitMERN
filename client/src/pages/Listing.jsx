@@ -7,13 +7,17 @@ import 'swiper/css/bundle';
 import { FaCopy , FaMapMarkerAlt , FaDoorClosed , FaParking} from "react-icons/fa";
 import { FaBath } from "react-icons/fa6";
 import { MdChair } from "react-icons/md";
+import { useSelector } from 'react-redux';
+import Contact from './../components/Contact';
 
 export default function Listing() {
   SwiperCore.use(Navigation);
+  const {currentUser} = useSelector((state) => state.user)
   const [list , setList] = useState(null);
   const [getListError , setGetListError] = useState(false);
   const [loading , setLoading] = useState(false);
   const [copied , setCopied] = useState(false);
+  const [contact , setContact] = useState(false);
   const params = useParams();
 
   useEffect(() => {
@@ -122,6 +126,10 @@ export default function Listing() {
                   {list.furnished ? `Meublé` : `Non meublé`}
                 </li>
               </ul>
+              {currentUser && list.userRef !== currentUser._id && !contact && (
+                <button onClick={()=> setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase p-3 hover:opacity-95'>Contacter le propriétaire</button>
+              )}
+              {contact && <Contact list={list}/>}
             </div>
           </>
         )}

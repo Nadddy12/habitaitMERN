@@ -53,4 +53,19 @@ userController.getUserList = async (req , res , next) => {
     };
 };
 
+userController.getUser = async (req , res , next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        
+        if(!user) return next(errorHandler(404 , `Utilisateur non trouvé !`))
+    
+        const { password: pass , ...userWithoutPW } = user._doc;
+    
+        res.status(200).json(userWithoutPW);
+    } catch (error) {
+        next(error);
+    };
+};
+
+
 export default userController;
