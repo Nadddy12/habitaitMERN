@@ -88,7 +88,7 @@ export default function Profile() {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`api/user/delete/${currentUser._id}` , {
+      const res = await fetch(`/api/user/delete/${currentUser._id}` , {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -105,7 +105,7 @@ export default function Profile() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch(`api/auth/signout`);
+      const res = await fetch(`/api/auth/signout`);
       const data = await res.json();
       if(data.success === false) {
         dispatch(signOutUserFailure(data.message));
@@ -120,7 +120,7 @@ export default function Profile() {
   const handleShowList = async () => {
     try {
       setShowListError(false);
-      const res = await fetch(`api/user/lists/${currentUser._id}`);
+      const res = await fetch(`/api/user/lists/${currentUser._id}`);
       const data = await res.json();
       if(data.success === false) {
         setShowListError(true);
@@ -136,7 +136,7 @@ export default function Profile() {
   const handleListDelete = async (listId) => {
     setListDeleteError(false);
     try {
-      const res = await fetch(`api/list/delete/${listId}` , {
+      const res = await fetch(`/api/list/delete/${listId}` , {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -272,10 +272,16 @@ export default function Profile() {
                     className='text-red-700'>
                     Supprimer
                   </button>
-                  <button className='text-green-700'>
-                    Modifier
-                  </button>
+                  <Link to={`/update-list/${ele._id}`}>
+                    <button className='text-green-700'>
+                      Modifier
+                    </button>
+                  </Link>
                 </div>
+                {listDeleteError && 
+                <p className='text-red-500 text-sm'>
+                  {listDeleteError}
+                </p>}
               </div>
             ))}
           </div>}

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { app } from '../firebase.js'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useParams } from 'react-router-dom';
 
-export default function CreateList() {
+export default function UpdateList() {
   const {currentUser} = useSelector(state => state.user);
   const [files , setFiles] = useState([]);
   const [formData , setFormData] = useState({
@@ -25,7 +25,25 @@ export default function CreateList() {
   const [uploading , setUploading] = useState(false);
   const [errorForm , setErrorForm] = useState(false);
   const [loadingForm , setLoadingForm] = useState(false);
+  const [fetchListError , setFetchListError] = useState(false);
   const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    const getList = async () => {
+      const listId = params.listId;
+      const res = await fetch(`/api/list/get/${listId}`);
+      const data = await res.json();
+      if(data.success === false) {
+        setFetchListError(data.message);
+        return;
+      }
+      setFetchListError(false);
+      setFormData(data);
+    };
+
+    getList();
+  }, []);
 
   const handleImageSubmit = (e) => {
     if(files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -113,7 +131,7 @@ export default function CreateList() {
       if(formData.regularPrice < formData.discountPrice) return setErrorForm(`Le prix réduit doit être inférieur au prix régulier`)
       setLoadingForm(true);
       setErrorForm(false);
-      const res = await fetch(`/api/list/create`, {
+      const res = await fetch(`/api/list/update/${params.listId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +155,11 @@ export default function CreateList() {
 
   return (
     <main className='p-3 max-w-4xl mx-auto'>
-      <h1 className='text-3xl font-semibold text-center my-7'>Créer une annonce</h1>
+      <h1 className='text-3xl font-semibold text-center my-7'>Modifier l'annonce</h1>
+      {fetchListError && 
+        <p className='text-red-700 text-sm'>
+          {fetchListError}
+        </p>}
       <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
         <div className='flex flex-col gap-4 flex-1'>
           <input 
@@ -326,7 +348,7 @@ export default function CreateList() {
             </div>
             ))}
           <button disabled={loadingForm || uploading} className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-            {loadingForm ? `Créer...` : `Créer l'annonce`}
+            {loadingForm ? `Modifier...` : `Modifier l'annonce`}
           </button>
           {errorForm && <p className='text-red-700 text-sm text-center'>{errorForm}</p>}
         </div>

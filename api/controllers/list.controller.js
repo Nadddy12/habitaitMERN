@@ -54,4 +54,17 @@ listController.update = async (req , res , next) => {
     };
 };
 
+listController.get = async (req , res ,next) => {
+    try {
+        const list = await List.findById(req.params.id);
+
+        if(!list) {
+            return next(errorHandler(404 , `L'annonce est introuvable`))
+        }
+        res.status(200).json(list);
+    } catch (error) {
+        next(error);
+    };
+};
+
 export default listController;

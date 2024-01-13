@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import CreateList from './pages/CreateList';
+import UpdateList from './pages/UpdateList';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />}/>
           <Route path='/create-list' element={<CreateList />}/>
+          <Route path='/update-list/:listId' element={<UpdateList />}/>
         </Route>
       </Routes>
     </BrowserRouter>
