@@ -9,16 +9,18 @@ import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import CreateList from './pages/CreateList';
 import UpdateList from './pages/UpdateList';
+import Listing from './pages/Listing';
 
 export default function App() {
   return (
     <BrowserRouter>
-    <Header />
+      <Header />
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/sign-in' element={<SignIn />}/>
         <Route path='/sign-up' element={<SignUp/>}/>
         <Route path='/about' element={<About />}/>
+        <Route path='/list/:listId' element={<Listing />}/>
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />}/>
           <Route path='/create-list' element={<CreateList />}/>
