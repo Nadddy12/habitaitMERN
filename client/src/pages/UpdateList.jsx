@@ -218,7 +218,7 @@ export default function UpdateList() {
                 id='parking' 
                 className='w-5'
                 onChange={handleChange}
-                value={formData.parking}
+                checked={formData.parking}
               />
               <span>Place de stationnement</span>
             </div>
@@ -228,7 +228,7 @@ export default function UpdateList() {
                 id='furnished' 
                 className='w-5'
                 onChange={handleChange}
-                value={formData.furnished}
+                checked={formData.furnished}
               />
               <span>Meublé</span>
             </div>
@@ -238,7 +238,7 @@ export default function UpdateList() {
                 id='offer' 
                 className='w-5'
                 onChange={handleChange}
-                value={formData.offer}
+                checked={formData.offer}
               />
               <span>Offre</span>
             </div>
