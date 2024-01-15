@@ -14,8 +14,10 @@ export default function Search() {
   });
   const [loading , setLoading] = useState(false);
   const [searchResult , setSearchResult] = useState([]);
+  const [showMore , setShowMore] = useState(false);
   const navigate = useNavigate();
 
+  console.log(searchResult)
 
   useEffect(()=>{
     const urlParams = new URLSearchParams(location.search);
@@ -48,10 +50,16 @@ export default function Search() {
     }
 
     const fetchData = async () => {
+      setShowMore(false);
       setLoading(true);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/list/annonces?${searchQuery}`);
       const data = await res.json();
+      if(data.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
       setSearchResult(data);
       setLoading(false);
     };
@@ -91,6 +99,21 @@ export default function Search() {
     urlParams.set('order' , sideBarData.order)
     const searchQuery = urlParams.toString()
     navigate(`/search?${searchQuery}`)
+  };
+
+  const showMoreClick = async () => {
+    const numberOfList = searchResult.length;
+    const startIndex = numberOfList;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('startIndex' , startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/list/annonces?${searchQuery}`);
+    const data = await res.json();
+    if(data.length < 9) {
+      setShowMore(false);
+    }
+
+    setSearchResult([...searchResult , ...data]);
   };
 
   return (
@@ -206,6 +229,15 @@ export default function Search() {
           {!loading && searchResult && searchResult.map((list) => (
             <ListingItems key={list._id} list={list}/>
           ))}
+
+          {showMore && (
+            <button
+              onClick={showMoreClick}
+              className='text-lime-600 hover:underline p-7 text-center w-full'
+            >
+              Afficher plus
+            </button>
+          )}
         </div>
       </div>
     </main>
