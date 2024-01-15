@@ -17,7 +17,6 @@ export default function Search() {
   const [showMore , setShowMore] = useState(false);
   const navigate = useNavigate();
 
-  console.log(searchResult)
 
   useEffect(()=>{
     const urlParams = new URLSearchParams(location.search);
