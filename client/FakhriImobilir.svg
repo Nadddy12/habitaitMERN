@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <radialGradient gradientUnits="userSpaceOnUse" cx="377.404" cy="395.433" r="479" id="gradient-0" spreadMethod="reflect">
+      <stop offset="0" style="stop-color: rgb(9.0196% 27.451% 39.608%)"/>
+      <stop offset="1" style="stop-color: rgb(0% 17.769% 29.134%)"/>
+    </radialGradient>
+    <style bx:fonts="Abril Fatface">@import url(https://fonts.googleapis.com/css2?family=Abril+Fatface%3Aital%2Cwght%400%2C400&amp;display=swap);</style>
+  </defs>
+  <rect width="958" height="909" x="-101.596" y="-59.067" style="paint-order: fill; fill-opacity: 0.98; fill-rule: nonzero; fill: url('#gradient-0'); transform-origin: 245.793px 231.971px;"/>
+  <text style="font-family: 'Abril Fatface'; font-size: 16.8px; white-space: pre;" x="44.471" y="192.174" transform="matrix(2.493130922317505, 0, 0, 2.6315789222717285, -7.506797790527344, -246.27098083496094)">Fakhri</text>
+  <text style="fill: rgb(60, 10, 10); font-family: 'Abril Fatface'; font-size: 16.8px; white-space: pre; transform-origin: 209.674px 183.312px;" x="170.072" y="188.568" transform="matrix(2.175359010696, 0, 0, 2.894737005234, 111.778697671528, 61.772540632706)">Immobilir</text>
+</svg>

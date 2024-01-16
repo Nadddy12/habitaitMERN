@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     const fetchOffer = async () => {
       try {
-        const res = await fetch(`/api/list/annonces?offer=true&limit=3`);
+        const res = await fetch(`/api/list/annonces?offer=true&limit=3&sort=createdAt&order=desc`);
         const data = await res.json();
         setOfferList(data);
         fetchRent();
@@ -28,7 +28,7 @@ export default function Home() {
 
     const fetchRent = async () => {
       try {
-        const res = await fetch(`/api/list/annonces?type=rent&limit=3`);
+        const res = await fetch(`/api/list/annonces?type=rent&limit=3&sort=createdAt&order=desc`);
         const data = await res.json();
         setRentList(data);
         fetchSale();
@@ -39,7 +39,7 @@ export default function Home() {
 
     const fetchSale = async () => {
       try {
-        const res = await fetch(`/api/list/annonces?type=sale&limit=3`);
+        const res = await fetch(`/api/list/annonces?type=sale&limit=3&sort=createdAt&order=desc`);
         const data = await res.json();
         setSaleList(data);
       } catch (error) {
@@ -89,7 +89,7 @@ export default function Home() {
           {offerList && offerList.length > 0 && (
             <div>
               <div className='my-3'>
-                <h2 className='text-2xl font-semibold text-slate-600'>Offres récentes</h2>
+                <h2 className='text-2xl font-semibold text-slate-600'>Nos offres</h2>
                 <Link 
                   to={`/search?offer=true`}
                   className='text-sm text-indigo-800 hover:underline'>
@@ -106,11 +106,11 @@ export default function Home() {
           {rentList && rentList.length > 0 && (
             <div>
               <div className='my-3'>
-                <h2 className='text-2xl font-semibold text-slate-600'>Lieux récents à louer</h2>
+                <h2 className='text-2xl font-semibold text-slate-600'>Lieux à louer</h2>
                 <Link 
                   to={`/search?type=rent`}
                   className='text-sm text-indigo-800 hover:underline'>
-                  Afficher plus des Lieux récents à louer
+                  Afficher plus des Lieux à louer
                 </Link>
               </div>
               <div className='flex flex-wrap gap-4'>
@@ -123,11 +123,11 @@ export default function Home() {
           {saleList && saleList.length > 0 && (
             <div>
               <div className='my-3'>
-                <h2 className='text-2xl font-semibold text-slate-600'>Lieux récents à vendre</h2>
+                <h2 className='text-2xl font-semibold text-slate-600'>Lieux à vendre</h2>
                 <Link 
                   to={`/search?type=sale`}
                   className='text-sm text-indigo-800 hover:underline'>
-                  Afficher plus des Lieux récents à vendre
+                  Afficher plus des Lieux à vendre
                 </Link>
               </div>
               <div className='flex flex-wrap gap-4'>

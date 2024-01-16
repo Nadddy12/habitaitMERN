@@ -232,7 +232,7 @@ export default function Search() {
           {showMore && (
             <button
               onClick={showMoreClick}
-              className='text-lime-600 hover:underline p-7 text-center w-full'
+              className='text-lime-600 hover:underline p-6 text-center w-full max-w-sm border border-gray-600 rounded-xl shadow-md hover:shadow-lg hover:border-lime-600'
             >
               Afficher plus
             </button>

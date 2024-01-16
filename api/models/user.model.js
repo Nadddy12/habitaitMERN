@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: "https://freerangestock.com/sample/120147/business-man-profile-vector.jpg"
+        default: "https://firebasestorage.googleapis.com/v0/b/habitatmern.appspot.com/o/business-man-profile-vector.jpg?alt=media&token=24a0356a-db84-46e7-a923-89479f60a683"
     },
 }, {timestamps: true});
 
